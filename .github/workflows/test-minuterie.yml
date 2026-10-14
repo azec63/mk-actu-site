@@ -1,0 +1,11 @@
+# Test temporaire : vérifie que les horaires programmés se déclenchent sur ce dépôt public.
+name: Test minuterie
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "déclenché à $(date)"
