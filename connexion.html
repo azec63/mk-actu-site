@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connexion TikTok — MK Actu</title>
+<style>
+  body { margin: 0; background: #0d0000; color: #e8e8e8; font: 17px/1.6 system-ui, sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 40px 16px; }
+  h1 { font-size: 26px; }
+  #code { display: block; width: 100%; box-sizing: border-box; padding: 14px; margin: 16px 0;
+          font: 15px/1.4 ui-monospace, monospace; background: #1c0505; color: #fff; border: 2px solid #cc0000;
+          border-radius: 8px; word-break: break-all; min-height: 60px; }
+  button { background: #cc0000; color: #fff; border: 0; border-radius: 8px; padding: 12px 22px; font-size: 17px; cursor: pointer; }
+  .erreur { color: #ff7070; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Connexion TikTok</h1>
+  <p id="message">Lecture de la réponse de TikTok…</p>
+  <textarea id="code" readonly></textarea>
+  <button id="copier" type="button">Copier le code</button>
+  <p>Envoie ce code à Claude Code tout de suite : il n'est valable que quelques minutes.</p>
+</main>
+<script>
+  const p = new URLSearchParams(location.search);
+  const code = p.get("code"), err = p.get("error") || p.get("error_description");
+  const msg = document.getElementById("message"), zone = document.getElementById("code");
+  if (code) {
+    msg.textContent = "Autorisation réussie. Voici ton code :";
+    zone.value = code;
+  } else {
+    msg.textContent = err ? "TikTok a renvoyé une erreur : " + err : "Aucun code reçu.";
+    msg.className = "erreur";
+  }
+  document.getElementById("copier").onclick = () => {
+    zone.select();
+    try { navigator.clipboard.writeText(zone.value); } catch (e) { document.execCommand("copy"); }
+  };
+</script>
+</body>
+</html>
